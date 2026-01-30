@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-const ButtonComponent = ({ text, isEndIcon }: { text: string, isEndIcon?: boolean }) => {
+const ButtonComponent = ({ text, isEndIcon, onSubmit}: { text: string, isEndIcon?: boolean, onSubmit?: () => void }) => {
     return (
         <>
             <Button
@@ -18,6 +18,7 @@ const ButtonComponent = ({ text, isEndIcon }: { text: string, isEndIcon?: boolea
                     borderRadius: "2.78px"
                 }}
                 endIcon={isEndIcon && <ArrowForwardIcon sx={{ height: "11.137111663818402px", width: "11.137111663818402px"}} />}
+                onClick={onSubmit}
             >
                 {text}
             </Button>

@@ -7,8 +7,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useState } from "react";
 import Link from "next/link";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
+    const { isAuthenticated, logout } = useAuth()
     const HeaderItems = [
         {
             name: "Home",
@@ -33,6 +35,10 @@ const Header = () => {
     ]
 
     const [showMenu, setShowMenu] = useState(false)
+
+    const handleLogout = async () => {
+        await logout();
+    }
 
     return (
         <>
@@ -65,8 +71,8 @@ const Header = () => {
                                             color: "#4D4D4D",
                                             cursor: "pointer",
                                             "&: hover": {
-                                              color: "#2E7D32",
-                                              fontWeight: 700
+                                                color: "#2E7D32",
+                                                fontWeight: 700
                                             }
                                         }}
                                     >
@@ -75,7 +81,11 @@ const Header = () => {
                                 </Link>))
                         }
                     </Box>
-                    <Link href="/signup"><ButtonComponent text="Register Now" isEndIcon={true} /></Link>
+                    {!isAuthenticated ?
+                        <Link href="/signup"><ButtonComponent text="Register Now" isEndIcon={true} /></Link>
+                        :
+                        <ButtonComponent text="Logout" onSubmit={handleLogout} />
+                    }
                 </Box>
                 {!showMenu ?
                     <Box sx={{ display: { xs: "flex", md: "none" } }} onClick={() => setShowMenu(true)}>
@@ -149,9 +159,11 @@ const Header = () => {
 
                             {/* CTA */}
                             <Box sx={{ marginTop: "auto" }}>
-                                <Link href="/signup" onClick={() => setShowMenu(false)}>
-                                    <ButtonComponent text="Register Now" isEndIcon />
-                                </Link>
+                                {!isAuthenticated ?
+                                    <Link href="/signup"><ButtonComponent text="Register Now" isEndIcon={true} /></Link>
+                                    :
+                                    <ButtonComponent text="Logout" onSubmit={handleLogout} />
+                                }
                             </Box>
                         </Box>
                     </>
